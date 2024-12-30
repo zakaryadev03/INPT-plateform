@@ -5,7 +5,20 @@ const crypto = require('crypto');
 
 exports.register = async (req, res) => {
     try {
-      const { name, email, password } = req.body;
+      const { name, email, password, userType } = req.body;
+
+      if (!email.endsWith("@ine.inpt.ac.ma")) {
+        return res
+            .status(400)
+            .json({ success: false, message: "Email must end with @ine.inpt.ac.ma" });
+      }
+
+      
+      if (!["alumni", "current student"].includes(userType)) {
+        return res
+            .status(400)
+            .json({ success: false, message: "Invalid user type" });
+      }
 
       let user = await User.findOne({ email });
       if (user) {
@@ -18,6 +31,7 @@ exports.register = async (req, res) => {
         name,
         email,
         password,
+        userType,
         avatar: { public_id: "sample_id", url: "sampleurl" },
       });
 
