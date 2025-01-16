@@ -41,11 +41,7 @@ const postSchema = new mongoose.Schema({
         },
     ],
 
-    tags: [
-        {
-            type: String,
-        },
-    ],
+    tags: [String],
 });
 
 module.exports = mongoose.model("Post", postSchema);
