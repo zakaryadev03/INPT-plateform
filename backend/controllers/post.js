@@ -1,6 +1,8 @@
 const post = require("../models/post");
 const Post = require("../models/post");
 const User = require("../models/user");
+const natural = require('natural');
+const { Matrix } = require('ml-matrix');
 
 
 
@@ -13,8 +15,9 @@ exports.createPost = async (req, res) => {
                 public_id:"req.body.public_id",
                 url:"req.body.url"
             },
-            owner:req.user._id
-        }
+            owner:req.user._id,
+            tags: req.body.tags || [],
+        };
         const post = await Post.create(newPostData);
 
         const user = await User.findById(req.user._id);
@@ -268,3 +271,49 @@ exports.deleteComment = async (req, res) => {
         });
     }
 }
+
+exports.getRecommendedPosts = async (req, res) => {
+    try {
+        const user = await User.findById(req.user._id);
+        const allPosts = await Post.find().populate('owner', 'name');
+
+        // Content-Based Filtering: Use tags to find similar posts
+        const userLikedPosts = await Post.find({ 'likes.user': req.user._id });
+        const userLikedTags = userLikedPosts.flatMap(post => post.tags);
+
+        // Collaborative Filtering: Find posts liked by users you follow
+        const followingUsers = user.following;
+        const followingUsersLikedPosts = await Post.find({ 'likes.user': { $in: followingUsers } });
+
+        // Combine results
+        const recommendedPosts = [];
+
+        // Content-Based: Add posts with similar tags
+        allPosts.forEach(post => {
+            const commonTags = post.tags.filter(tag => userLikedTags.includes(tag));
+            if (commonTags.length > 0 && !userLikedPosts.includes(post._id)) {
+                recommendedPosts.push(post);
+            }
+        });
+
+        // Collaborative: Add posts liked by followed users
+        followingUsersLikedPosts.forEach(post => {
+            if (!userLikedPosts.includes(post._id) && !recommendedPosts.includes(post)) {
+                recommendedPosts.push(post);
+            }
+        });
+
+        // Remove duplicates
+        const uniqueRecommendedPosts = [...new Set(recommendedPosts)];
+
+        res.status(200).json({
+            success: true,
+            posts: uniqueRecommendedPosts,
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: error.message,
+        });
+    }
+};
