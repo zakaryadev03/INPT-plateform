@@ -5,7 +5,7 @@ const crypto = require('crypto');
 
 exports.register = async (req, res) => {
     try {
-      const { name, email, password, userType } = req.body;
+      const { name, email, password, userType, filière } = req.body;
 
       if (!email.endsWith("@ine.inpt.ac.ma")) {
         return res
@@ -32,6 +32,7 @@ exports.register = async (req, res) => {
         email,
         password,
         userType,
+        filière,
         avatar: { public_id: "sample_id", url: "sampleurl" },
       });
 

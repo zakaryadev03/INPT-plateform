@@ -7,6 +7,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: [true, "Please enter your name"],
     },
+    filière: {
+        type: String,
+        required: [true, "Please enter votre filière"],
+    },
 
     avatar: {
         public_id: String,
