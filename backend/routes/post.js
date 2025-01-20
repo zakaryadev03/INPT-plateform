@@ -1,6 +1,7 @@
 const express = require("express");
 const { createPost, likeAndUnlikePost, deletePost, getPostOfFollowing, updateCaption, commentOnPost, deleteComment } = require("../controllers/post");
 const { isAuthenticated } = require("../middlewares/auth");
+const { getRecommendedPosts } = require("../controllers/Mlpost");
 
 const router = express.Router();
 
@@ -17,4 +18,5 @@ router
   .delete(isAuthenticated, deletePost);
 
 router.route("/posts").get(isAuthenticated, getPostOfFollowing);
+router.route("/recommendations").get(isAuthenticated, getRecommendedPosts);
 module.exports = router;

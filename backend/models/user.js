@@ -7,6 +7,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: [true, "Please enter your name"],
     },
+    filière: {
+        type: String,
+        required: [true, "Please enter votre filière"],
+    },
 
     avatar: {
         public_id: String,
@@ -17,6 +21,12 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: [true, "Please enter your inemail"],
         unique: [true, "Already existed"],
+        validate: {
+            validator: function (value) {
+                return value.endsWith("@ine.inpt.ac.ma");
+            },
+            message: "Email must end with @ine.inpt.ac.ma",
+        },
     },
 
     password: {
@@ -46,6 +56,12 @@ const userSchema = new mongoose.Schema({
             ref: "User", 
         },
     ],
+
+    userType: {
+        type: String,
+        enum: ["alumni", "current student"],
+        required: [true, "Please select user type"],
+    },
 
     resetPasswordToken: String,
     resetPasswordExpire: Date,

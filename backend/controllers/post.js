@@ -1,4 +1,3 @@
-const post = require("../models/post");
 const Post = require("../models/post");
 const User = require("../models/user");
 
@@ -13,8 +12,9 @@ exports.createPost = async (req, res) => {
                 public_id:"req.body.public_id",
                 url:"req.body.url"
             },
-            owner:req.user._id
-        }
+            owner:req.user._id,
+            tags: req.body.tags || [],
+        };
         const post = await Post.create(newPostData);
 
         const user = await User.findById(req.user._id);
