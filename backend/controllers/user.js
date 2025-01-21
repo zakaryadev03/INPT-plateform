@@ -71,6 +71,7 @@ exports.login = async (req, res) => {
       const options = {
         expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
         httpOnly:true,
+        sameSite:"none"
       }
       res.status(200)
       .cookie("token", token, options)
@@ -91,7 +92,7 @@ exports.logout = async (req, res) => {
   try {
     
     res.status(200)
-      .cookie("token", null, { expires: new Date(Date.now()), httpOnly:true})
+      .cookie("token", null, { expires: new Date(Date.now()), httpOnly:true,sameSite:"none"})
       .json({
         success: true,
         message: "Loged out",
@@ -224,6 +225,7 @@ exports.deleteMyProfile = async (req, res) => {
 
     res.cookie("token", null, { 
       expires: new Date(Date.now()), 
+      sameSite:"none",
       httpOnly:true
     });
     for (let i = 0; i < posts.length; i++ ) {
@@ -260,7 +262,7 @@ exports.deleteMyProfile = async (req, res) => {
 exports.myProfile = async (req, res) => {
   try {
     const user = await User.findById(req.user._id).populate("posts");
-
+    
     res.status(200).json({
       success: true,
       user,
