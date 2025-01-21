@@ -23,8 +23,12 @@ function App() {
     dispatch(loadUser());
   }, [dispatch]);
 
-  const { isAuthenticated } = useSelector((state) => state.user);
-
+  const { isAuthenticated } = useSelector((state) => {
+    console.log("usr : ",state.user)
+    return state.user
+  });
+  console.log(isAuthenticated);
+  
   return (
     <Router>
       {isAuthenticated && <Header />}

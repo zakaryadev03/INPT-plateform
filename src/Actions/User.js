@@ -7,12 +7,13 @@ export const loginUser = (email, password) => async (dispatch) => {
     });
 
     const { data } = await axios.post(
-      "/api/v1/login",
+      "http://localhost:4000/api/v1/login",
       { email, password },
       {
         headers: {
           "Content-Type": "application/json",
         },
+        withCredentials:true
       }
     );
 
@@ -34,7 +35,9 @@ export const loadUser = () => async (dispatch) => {
       type: "LoadUserRequest",
     });
 
-    const { data } = await axios.get("/api/v1/me");
+    const { data } = await axios.get("http://localhost:4000/api/v1/me",{
+      withCredentials:true
+    });
 
     dispatch({
       type: "LoadUserSuccess",
@@ -54,7 +57,7 @@ export const getFollowingPosts = () => async (dispatch) => {
       type: "postOfFollowingRequest",
     });
 
-    const { data } = await axios.get("/api/v1/posts");
+    const { data } = await axios.get("http://localhost:4000/api/v1/posts",{withCredentials:true});
     dispatch({
       type: "postOfFollowingSuccess",
       payload: data.posts,
@@ -73,7 +76,7 @@ export const getMyPosts = () => async (dispatch) => {
       type: "myPostsRequest",
     });
 
-    const { data } = await axios.get("/api/v1/my/posts");
+    const { data } = await axios.get("http://localhost:4000/api/v1/my/posts",{withCredentials:true});
     dispatch({
       type: "myPostsSuccess",
       payload: data.posts,
@@ -94,7 +97,7 @@ export const getAllUsers =
         type: "allUsersRequest",
       });
 
-      const { data } = await axios.get(`/api/v1/users?name=${name}`);
+      const { data } = await axios.get(`http://localhost:4000/api/v1/users?name=${name}`,{withCredentials:true});
       dispatch({
         type: "allUsersSuccess",
         payload: data.users,
@@ -113,7 +116,7 @@ export const logoutUser = () => async (dispatch) => {
       type: "LogoutUserRequest",
     });
 
-    await axios.get("/api/v1/logout");
+    await axios.get("http://localhost:4000/api/v1/logout",{withCredentials:true});
 
     dispatch({
       type: "LogoutUserSuccess",
@@ -134,12 +137,12 @@ export const registerUser =
       });
 
       const { data } = await axios.post(
-        "/api/v1/register",
+        "http://localhost:4000/api/v1/register",
         { name, email, password, avatar },
         {
           headers: {
             "Content-Type": "application/json",
-          },
+          },withCredentials:true
         }
       );
 
@@ -162,12 +165,12 @@ export const updateProfile = (name, email, avatar) => async (dispatch) => {
     });
 
     const { data } = await axios.put(
-      "/api/v1/update/profile",
+      "http://localhost:4000/api/v1/update/profile",
       { name, email, avatar },
       {
         headers: {
           "Content-Type": "application/json",
-        },
+        },withCredentials:true
       }
     );
 
@@ -191,12 +194,12 @@ export const updatePassword =
       });
 
       const { data } = await axios.put(
-        "/api/v1/update/password",
+        "http://localhost:4000/api/v1/update/password",
         { oldPassword, newPassword },
         {
           headers: {
             "Content-Type": "application/json",
-          },
+          },withCredentials:true
         }
       );
 
@@ -218,7 +221,7 @@ export const deleteMyProfile = () => async (dispatch) => {
       type: "deleteProfileRequest",
     });
 
-    const { data } = await axios.delete("/api/v1/delete/me");
+    const { data } = await axios.delete("http://localhost:4000/api/v1/delete/me",{withCredentials:true});
 
     dispatch({
       type: "deleteProfileSuccess",
@@ -239,14 +242,14 @@ export const forgotPassword = (email) => async (dispatch) => {
     });
 
     const { data } = await axios.post(
-      "/api/v1/forgot/password",
+      "http://localhost:4000/api/v1/forgot/password",
       {
         email,
       },
       {
         headers: {
           "Content-Type": "application/json",
-        },
+        },withCredentials:true
       }
     );
 
@@ -269,14 +272,14 @@ export const resetPassword = (token, password) => async (dispatch) => {
     });
 
     const { data } = await axios.put(
-      `/api/v1/password/reset/${token}`,
+      `http://localhost:4000/api/v1/password/reset/${token}`,
       {
         password,
       },
       {
         headers: {
           "Content-Type": "application/json",
-        },
+        },withCredentials:true
       }
     );
 
@@ -298,7 +301,7 @@ export const getUserPosts = (id) => async (dispatch) => {
       type: "userPostsRequest",
     });
 
-    const { data } = await axios.get(`/api/v1/userposts/${id}`);
+    const { data } = await axios.get(`http://localhost:4000/api/v1/userposts/${id}`,{withCredentials:true});
     dispatch({
       type: "userPostsSuccess",
       payload: data.posts,
@@ -317,7 +320,7 @@ export const getUserProfile = (id) => async (dispatch) => {
       type: "userProfileRequest",
     });
 
-    const { data } = await axios.get(`/api/v1/user/${id}`);
+    const { data } = await axios.get(`http://localhost:4000/api/v1/user/${id}`,{withCredentials:true});
     dispatch({
       type: "userProfileSuccess",
       payload: data.user,
@@ -336,7 +339,7 @@ export const followAndUnfollowUser = (id) => async (dispatch) => {
       type: "followUserRequest",
     });
 
-    const { data } = await axios.get(`/api/v1/follow/${id}`);
+    const { data } = await axios.get(`http://localhost:4000/api/v1/follow/${id}`,{withCredentials:true});
     dispatch({
       type: "followUserSuccess",
       payload: data.message,
