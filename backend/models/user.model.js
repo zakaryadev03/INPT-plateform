@@ -21,6 +21,16 @@ const userSchema = new mongoose.Schema(
 			required: true,
 			unique: true,
 		},
+		aemail: {
+			type: String,
+			unique: true,
+			sparse: true,
+		},
+		userType: {
+			type: String,
+			enum: ["student", "alumni"],
+			required: true,
+		},
 		followers: [
 			{
 				type: mongoose.Schema.Types.ObjectId,

@@ -4,7 +4,7 @@ import bcrypt from "bcryptjs";
 
 export const signup = async (req, res) => {
 	try {
-		const { fullName, username, email, password } = req.body;
+		const { fullName, username, email, password, aemail, userType } = req.body;
 
 		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 		if (!emailRegex.test(email)) {
@@ -19,6 +19,13 @@ export const signup = async (req, res) => {
 		const existingEmail = await User.findOne({ email });
 		if (existingEmail) {
 			return res.status(400).json({ error: "Email is already taken" });
+		}
+
+		if (aemail) {
+			const existingAEmail = await User.findOne({ aemail });
+			if (existingAEmail) {
+				return res.status(400).json({ error: "Academic email is already taken" });
+			}
 		}
 
 		if (password.length < 6) {
@@ -44,6 +51,8 @@ export const signup = async (req, res) => {
 				fullName: newUser.fullName,
 				username: newUser.username,
 				email: newUser.email,
+				aemail: newUser.aemail,
+				userType: newUser.userType,
 				followers: newUser.followers,
 				following: newUser.following,
 				profileImg: newUser.profileImg,
@@ -75,6 +84,8 @@ export const login = async (req, res) => {
 			fullName: user.fullName,
 			username: user.username,
 			email: user.email,
+			aemail: user.aemail,
+			userType: user.userType,
 			followers: user.followers,
 			following: user.following,
 			profileImg: user.profileImg,

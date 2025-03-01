@@ -67,7 +67,7 @@ const SignUpPage = () => {
 			<div className='flex-1 flex flex-col justify-center items-center'>
 				<form className='lg:w-2/3  mx-auto md:mx-20 flex gap-4 flex-col' onSubmit={handleSubmit}>
 					<XSvg className='w-24 lg:hidden fill-white' />
-					<h1 className='text-4xl font-extrabold text-white'>Join today.</h1>
+					<h1 className='text-4xl font-extrabold text-white'>Create an account.</h1>
 					<label className='input input-bordered rounded flex items-center gap-2'>
 						<MdOutlineMail />
 						<input
@@ -77,6 +77,17 @@ const SignUpPage = () => {
 							name='email'
 							onChange={handleInputChange}
 							value={formData.email}
+						/>
+					</label>
+					<label className='input input-bordered rounded flex items-center gap-2'>
+						<MdOutlineMail />
+						<input
+							type='email'
+							className='grow'
+							placeholder='Academic Email'
+							name='email'
+							onChange={handleInputChange}
+							value={formData.aemail}
 						/>
 					</label>
 					<div className='flex gap-4 flex-wrap'>
@@ -114,6 +125,19 @@ const SignUpPage = () => {
 							value={formData.password}
 						/>
 					</label>
+					<label className='input input-bordered rounded flex items-center gap-2 relative'>
+					  <FaUser />
+	                  <select
+		                name='userType'
+		                className='grow bg-transparent appearance-none outline-none cursor-pointer'
+		                onChange={handleInputChange}
+		                value={formData.userType || ""}
+	                  >
+		              <option value="" disabled className="bg-black text-gray-400">Select User Type</option>
+                      <option value="student" className="bg-black text-white">Student</option>
+                      <option value="alumni" className="bg-black text-white">Alumni</option>
+	                  </select>
+                    </label>
 					<button className='btn rounded-full btn-primary text-white'>
 						{isPending ? "Loading..." : "Sign up"}
 					</button>
