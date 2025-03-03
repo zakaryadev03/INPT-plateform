@@ -23,4 +23,5 @@ COPY --from=builder /usr/src/app/frontend/dist ./frontend/dist
 
 COPY .env .env-sample ./
 
+EXPOSE 5000
 ENTRYPOINT [ "npm", "start" ]
