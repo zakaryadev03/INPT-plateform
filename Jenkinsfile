@@ -7,7 +7,7 @@ pipeline {
 
     environment {
         registryCredential = 'ecr:us-east-1:awscreds'
-        appRegistry = "951401132355.dkr.ecr.us-east-2.amazonaws.com/inptappimg"
+        appRegistry = "951401132355.dkr.ecr.us-east-1.amazonaws.com/inptappimg"
         inptRegistry = "https://951401132355.dkr.ecr.us-east-1.amazonaws.com"
         cluster = "inpt"
         service = "inptappsvc"
