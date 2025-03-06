@@ -13,6 +13,7 @@ import toast from "react-hot-toast";
 const SignUpPage = () => {
 	const [formData, setFormData] = useState({
 		email: "",
+		aemail: "",
 		username: "",
 		fullName: "",
 		password: "",
@@ -85,7 +86,7 @@ const SignUpPage = () => {
 							type='email'
 							className='grow'
 							placeholder='Academic Email'
-							name='email'
+							name='aemail'
 							onChange={handleInputChange}
 							value={formData.aemail}
 						/>
